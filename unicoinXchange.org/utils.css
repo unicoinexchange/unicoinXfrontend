@@ -1,0 +1,128 @@
+.dashboard-btn{
+    display: none;
+    cursor: pointer;
+}
+.flex-btn{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+.fa-user{
+    color: #01CF15;
+}
+.dashboard-btn p{
+    color:white;
+    margin-left: 3%;
+}
+.auth-menu{
+    display: none !important;
+}
+.banner-btn{
+    display: none !important;
+}
+/* POP-UP MODAL */
+.pop{
+    width:400px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    position:absolute;
+    top:0%;
+    left:50%; 
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding: 0px 30px 30px;
+    color:#333;
+    box-shadow:0 5px 5px rgba(0, 0, 0, 0.2);
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+}
+.open-popup{
+    visibility: visible;
+    top:50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+.pop img{
+    width:100px;
+    margin-top: -50px;
+    border-radius: 50%;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.pop h2{
+    font-size: 38px;
+    font-weight: 500;
+    margin:30px 0 10px;
+}
+.pop button{
+    width:100%;
+    margin-top: 50px;
+    padding:10px 0;
+    background-color: #01CF15;
+    color:#fff;
+    border:0;
+    outline:none;
+    font-size: 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow:0 5px 5px rgba(0, 0, 0, 0.2);
+}
+.error{
+    color:red;
+}
+.btnErr{
+    background-color: red !important;
+}
+.success{
+    color:#01CF15;
+}
+.btnSuccess{
+    background-color: #01CF15 !important;
+}
+.logo{
+    margin-top: 12px;
+}
+.side-logo{
+    width:80%;
+}
+.show-password{
+    width:10%;
+    position: absolute;
+    right:-18px;
+    top:30%;
+    cursor: pointer;
+} 
+.show-passwordd{
+    width:10%;
+    position: absolute;
+    right:-18px;
+    top:30%;
+    cursor: pointer;
+    z-index: 1;
+}
+.fa-eye-slash{
+    display: none;
+}
+.reset-con{
+    padding-top: 5%;
+} 
+.pass-err-msg{
+    color:red;
+    text-align: center;
+    margin-top: 2%;
+    font-size: 12px;
+}
+@media only screen and (max-width:600px){
+    .logo{
+        margin-top: 12px;
+        width: 80%;
+    }
+    .mobile-nav-toggler{
+        margin-left: 45%;
+    }
+    .logo-img{
+        width: 300% !important;
+    }
+    .pop{
+        width:300px;
+    }
+}
+

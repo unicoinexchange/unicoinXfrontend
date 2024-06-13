@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../img/skull.png">
+    <title>Admin | UnicoinXchange</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Arimo:400,400i,700,700i&amp;display=swap" rel="stylesheet">
+    <link href="../../fronta/css/font-awesome-all.css" rel="stylesheet">
+    <link href="../css/admin.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="admin-dashboard">
+        <div class="dashboard-wrap">
+            <!-- MOBILE HEADER -->
+            <div class="mobile-header">
+                <img src="../img/skull.png" alt="skull"/>
+
+                <div class="bars">
+                    <i class="fa fa-bars"></i>
+                    <i class="fa fa-times"></i>
+                </div>
+            </div>
+            <nav class="navigation">
+                <img src="../img/skull.png" alt="skull"/>
+                <div class="admin-user">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <h3></h3>
+                </div>
+                <ul>
+                    <li id="get-all-user">Get All Users</li>
+                    <li id="get-all-admin">Get All Admin</li>
+                    <li id="update-admin-details">Update Admin Details</li>
+                    <li id="update-admin-password">Update Password</li>
+                    <li id="del-client">Delete Client</li>
+                </ul>
+                <div class="logout-btn">
+                    <i title="Logout" class="fa fa-power-off" id="logout"></i>
+                    <p>Logout</p>
+                </div>
+            </nav>
+            <div class="dashboard-page">
+                <div class="user-cards-wrap">
+
+                </div>
+                <div class="admins-card">
+
+                </div>
+
+                 <!--Update Admin Details Form -->
+
+                <form class="forms update-admin-details-form">
+                    <div class="form-title">
+                        <h3>UPDATE ADMIN DETAILS</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="full-name">Full Name</label>
+                        <input type="text" id="full-name" name="name" value="" placeholder="" data-msg-required="Required." data-msg-minlength="At least 3 chars." required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email-address">Email Address</label>
+                        <input type="email" id="email-address" name="email" value="" placeholder="" data-msg-email="Enter a valid email." data-msg-required="Required." required/>
+                    </div>
+                    <button class="btn" type="submit">Edit Details</button>
+                </form>
+
+                 <!-- Upadate Password Form -->
+        
+                <form class="forms update-Admin-password-form">
+                    <div class="form-title">
+                        <h3>UPDATE ADMIN PASSWORD</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="current-password">Current Password</label>
+                        <div class="show-password">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                        </div>
+                        <input type="password" id="current-password" name="current-password" value="" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">New Password</label>
+                        <div class="show-password">
+                            <i class="fa fa-eye new-pass-eye" aria-hidden="true"></i>
+                            <i class="fa fa-eye-slash new-pass-slash-eye" aria-hidden="true"></i>
+                        </div>
+                        <input type="password" id="new-password" name="new-password" value="" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="confirm-password">Confirm Password</label>
+                        <div class="show-password">
+                            <i class="fa fa-eye confirm-eye-pass" aria-hidden="true"></i>
+                            <i class="fa fa-eye-slash confirm-eye-pass-slash" aria-hidden="true"></i>
+                        </div>
+                        <input type="password" id="confirm-password" name="confirm-password" value="" required/>
+                    </div>
+                    <button class="btn" type="submit">Update Password</button>
+                    <p class="pass-err-msg"></p>
+                </form>
+
+                <!-- Upadate Client Investment Form -->
+    
+                <form class="forms update-cli-inv-form">
+                    <div class="form-title">
+                        <h3>Update Client Investment Amount Form</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="current-password">Amount</label>
+                        <input type="number" id="ammount" name="investment-Amount" value="" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">Coin</label>
+                        <input type="text" id="coin-type" name="crypto-coin" value="" required/>
+                    </div>
+                    <button class="btn" type="submit">Update Amount</button>
+                </form>
+            </div>
+        </div>
+        <!-- POP-UP MODAL -->
+        <div class="pop" id="popup">
+            <img src="../img/check.png"/>
+            <h2>Thank You!</h2>
+            <p>Your details has been successfully submitted. Thanks!</p>
+            <button type="button" id="close-modal">OK</button>
+        </div>
+    </div>
+
+    <script src="../../../node_modules/axios/dist/axios.min.js"></script>
+    <script src="../jscript/adminScript.js"></script>
+</body>
+</html>
