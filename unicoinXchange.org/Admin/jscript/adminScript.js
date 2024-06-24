@@ -119,7 +119,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 return;
             }
 
-            axios.post("http://127.0.0.1:7000/api/v1/admin/adminSignUp", {
+            axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminSignUp", {
                 name: fullName.value.trim(),
                 email: emailAddress.value.trim(),
                 password: password.value.trim(),
@@ -148,7 +148,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
         const verifyOtp = () => {
             const otp = document.getElementById("otp");
 
-            axios.post("http://127.0.0.1:7000/api/v1/admin/adminVerifyOTP",{
+            axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminVerifyOTP",{
                 otp:otp.value.trim()
             }).then(res => {
                 res.data.status === "success";
@@ -176,7 +176,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
             const loginEmail = document.getElementById("email-address2");
             const loginPassword = document.getElementById("password");
 
-            axios.post("http://127.0.0.1:7000/api/v1/admin/adminLogin", {
+            axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminLogin", {
                 email: loginEmail.value.trim(),
                 password: loginPassword.value.trim()
             }).then(res => {
@@ -205,7 +205,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
         const forgotPassword = () => {
             const forgotPassEmail = document.getElementById("forgot-pass-mail");
 
-            axios.post("http://127.0.0.1:7000/api/v1/admin/adminForgetPassword", {
+            axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminForgetPassword", {
                 email:forgotPassEmail.value.trim()
             }).then(res => {
                 const formId = "forgotPass"
@@ -239,7 +239,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 return;
             }
 
-            axios.patch("http://127.0.0.1:7000/api/v1/admin/adminResetPassword", {
+            axios.patch("https://unicoinxbackend.onrender.com/api/v1/admin/adminResetPassword", {
                 otp: resetPassOtp.value.trim(),
                 password: newPass.value.trim(),
                 passwordConfirm: confirmResetPass.value.trim()
@@ -455,7 +455,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
             const amount = document.getElementById("ammount");
             const coin = document.getElementById("coin-type");
 
-            axios.post(`http://127.0.0.1:7000/api/v1/admin/setUserInvestmentAmount/${userId}`,{
+            axios.post(`https://unicoinxbackend.onrender.com/api/v1/admin/setUserInvestmentAmount/${userId}`,{
                 amount: amount.value.trim(),
                 paymentMode: coin.value.trim(),
             },{
@@ -478,7 +478,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
     const activateClientInvesment = (userId) => {
         const jwtToken = localStorage.getItem("adminJwtToken")
     
-        axios.post(`http://127.0.0.1:7000/api/v1/admin/activateUserInvestment`, {
+        axios.post(`https://unicoinxbackend.onrender.com/api/v1/admin/activateUserInvestment`, {
             id: userId
         },{
             headers: {
@@ -500,7 +500,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
     const deActivateClientInvesment = (userId) => {
         const jwtToken = localStorage.getItem("adminJwtToken");
           
-        axios.post(`http://127.0.0.1:7000/api/v1/admin/deactivateUserInvestment`,{
+        axios.post(`https://unicoinxbackend.onrender.com/api/v1/admin/deactivateUserInvestment`,{
             id: userId
         },{
             headers: {
@@ -544,7 +544,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
     const getAllUser = () => {
         const jwtToken = localStorage.getItem("adminJwtToken")
         
-        axios.get(`http://127.0.0.1:7000/api/v1/admin/getAllUsers`, {
+        axios.get(`https://unicoinxbackend.onrender.com/api/v1/admin/getAllUsers`, {
             headers: {
                 "Content-Type" : 'application/json',
                 "Authorization" : `Bearer ${jwtToken}`
@@ -610,7 +610,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
     getAllAdminBtn.addEventListener("click", () => {
         const jwtToken = localStorage.getItem("adminJwtToken");
 
-        axios.get("http://127.0.0.1:7000/api/v1/admin/getAllAdmin",{
+        axios.get("https://unicoinxbackend.onrender.com/api/v1/admin/getAllAdmin",{
             headers: {
                 "Content-Type": 'application/json',
                 "Authorization" : `Bearer ${jwtToken}`
@@ -677,7 +677,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
             const fullName = document.getElementById("full-name");
             const emailAddress = document.getElementById("email-address");
 
-            axios.patch("http://127.0.0.1:7000/api/v1/admin/",{
+            axios.patch("https://unicoinxbackend.onrender.com/api/v1/admin/",{
                 name: fullName.value.trim(),
                 email: emailAddress.value.trim(),
                 },{
@@ -745,7 +745,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
                 return;
             }
 
-            axios.patch(`http://127.0.0.1:7000/api/v1/admin/adminUpdatePassword`,{
+            axios.patch(`https://unicoinxbackend.onrender.com/api/v1/admin/adminUpdatePassword`,{
                     currentPassword: currentPassword.value.trim(),
                     password: newPassword.value.trim(),
                     passwordConfirm: confirmPassword.value.trim(),

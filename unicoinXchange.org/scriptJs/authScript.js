@@ -140,7 +140,7 @@ const register = () => {
         return;
     }
 
-    axios.post("http://127.0.0.1:7000/api/v1/users/userSignUp", {
+    axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userSignUp", {
         name: fullname.value.trim(),
         email: email.value.trim(),
         password: password.value.trim(),
@@ -166,7 +166,7 @@ formOne && formOne.addEventListener("submit", (e) => {
 
 // USER VERIFY OTP TOKEN
 const verifyOtp = () => {
-    axios.post("http://127.0.0.1:7000/api/v1/users/userVerifyOTP",{
+    axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userVerifyOTP",{
         otp:otp.value.trim()
     }).then(res => {
         res.data.status === "success";
@@ -190,7 +190,7 @@ otpForm && otpForm.addEventListener("submit", (e) => {
 
 // USER LOGIN
 const login = () => {
-    axios.post("http://127.0.0.1:7000/api/v1/users/userLogIn", {
+    axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userLogIn", {
         email: loginEmail.value.trim(),
         password: loginPassword.value.trim()
     }).then(res => {
@@ -215,7 +215,7 @@ loginForm && loginForm.addEventListener("submit", (e) => {
 
 // FORGOT PASSWORD
 const forgetPassword = () => {
-    axios.post("http://127.0.0.1:7000/api/v1/users/userForgetPassword", {
+    axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userForgetPassword", {
         email: forgotPassEmail.value.trim()
     }).then(res => {
         res.data.status === "success";
@@ -238,7 +238,7 @@ const resetPassword = () => {
         return;
     }
 
-    axios.patch("http://127.0.0.1:7000/api/v1/users/userResetPassword", {
+    axios.patch("https://unicoinxbackend.onrender.com/api/v1/users/userResetPassword", {
         otp: resetPassOtp.value.trim(),
         password: resetPass.value.trim(),
         passwordConfirm: confirmResetPass.value.trim()
@@ -345,6 +345,7 @@ const  populateHistory = (data) => {
 };
 
 const populateDashboard = (data) => {
+
     const profileName = document.getElementById("profile_name");
     const investMentStatus = document.querySelector(".global");
     const acctBlc = document.getElementById("acct-blc");
@@ -362,9 +363,11 @@ const populateDashboard = (data) => {
 
     if(data.data.investmentPlan !== undefined){
         acctBlc.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount;
-        bonus.children[1].firstElementChild.innerHTML = data.data.investmentPlan.referralBonus;
         totalWithdraw.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount;
-        availableProfit.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount - 2000;
+        if(data.data.investmentPlan.amount !== 0){
+            availableProfit.children[1].firstElementChild.innerHTML = data.data.investmentPlan.amount - totAmt;
+            bonus.children[1].firstElementChild.innerHTML = data.data.investmentPlan.referralBonus;
+        }
     };
     
     if(data.data.investmentStatus === false){
@@ -385,7 +388,7 @@ const authenticateEditForms = (editUserDetailsForm, editUserPasswordForm) => {
         const fullName = document.getElementById("full-name");
         const emailAddress = document.getElementById("email-address");
 
-        axios.patch("http://127.0.0.1:7000/api/v1/users/", {
+        axios.patch("https://unicoinxbackend.onrender.com/api/v1/users/", {
             name: fullName.value.trim(),
             email: emailAddress.value.trim(),
         },{
@@ -417,7 +420,7 @@ const authenticateEditForms = (editUserDetailsForm, editUserPasswordForm) => {
             return;
         }
 
-        axios.patch("http://127.0.0.1:7000/api/v1/users/userUpdatePassword", {
+        axios.patch("https://unicoinxbackend.onrender.com/api/v1/users/userUpdatePassword", {
                 currentPassword: currentPass.value.trim(),
                 password: newPassword.value.trim(),
                 passwordConfirm: confirmPassword.value.trim(),
@@ -439,7 +442,7 @@ if(window.location.pathname === '/unicoinXchange.org/page/dashboard.html'){
 let data;
 document.addEventListener('DOMContentLoaded', () => {
     const jwtToken = localStorage.getItem("jwtToken")
-    axios.get("http://127.0.0.1:7000/api/v1/users/", {
+    axios.get("https://unicoinxbackend.onrender.com/api/v1/users/", {
         headers: {
             "Content-Type": 'application/json',
             "Authorization" : `Bearer ${jwtToken}`
@@ -596,13 +599,13 @@ dashboardBtn && dashboardBtn.addEventListener("click", () => {
 // CREATE INVESTMENT
 const investNowBtn = document.querySelectorAll(".table-footer");
 
-const postInvetment = (name, duration, referralBonus, totalReturn) => {
+const postInvetment = (name, duration, referralBonus, percentIncrease) => {
     const jwtToken = localStorage.getItem("jwtToken");
-    axios.post("http://127.0.0.1:7000/api/v1/investment/createInvestment", {
+    axios.post("https://unicoinxbackend.onrender.com/api/v1/investment/createInvestment", {
         name:name.innerText.trim(),
         duration: duration[0].trim(),
         referralBonus: referralBonus.trim(),
-        totalReturn: totalReturn.trim()
+        percentIncrease: percentIncrease.trim()
     },{
     headers: {
         "Content-Type": 'application/json',
@@ -626,52 +629,52 @@ const rookiePlan = () => {
     const name = document.getElementById("rookie-plan");
     const durationDays = document.getElementById("rookie-duration");
     const referralBonusPercent = document.getElementById("rookie-bonus");
-    const totalReturnPercent = document.getElementById("rookie-return");
+    const rookiePercentIncrease = document.getElementById("rookie-percent");
 
     const duration = durationDays.innerText.split(' ');
     const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
-    const totalReturn = totalReturnPercent.innerText.substring(0, totalReturnPercent.innerText.length - 1);
+    const percentIncrease = rookiePercentIncrease.innerText.substring(0, rookiePercentIncrease.innerText.length - 1);
 
-    postInvetment(name, duration, referralBonus, totalReturn);
+    postInvetment(name, duration, referralBonus, percentIncrease);
 };
 
 const intermediatePlan = () => {
     const name = document.getElementById("Intermediate-plan");
     const durationDays = document.getElementById("intermediate-duration");
     const referralBonusPercent = document.getElementById("intermediate-bonus");
-    const totalReturnPercent = document.getElementById("intermediate-return");
+    const intermediatePercentIncrease = document.getElementById("intermediate-percent");
 
     const duration = durationDays.innerText.split(' ');
     const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
-    const totalReturn = totalReturnPercent.innerText.substring(0, totalReturnPercent.innerText.length - 1);
+    const percentIncrease = intermediatePercentIncrease.innerText.substring(0, intermediatePercentIncrease.innerText.length - 1);
 
-    postInvetment(name, duration, referralBonus, totalReturn);
+    postInvetment(name, duration, referralBonus, percentIncrease);
 };
 
 const professionalPlan = () => {
     const name = document.getElementById("professional-plan");
     const durationDays = document.getElementById("professional-duration");
     const referralBonusPercent = document.getElementById("professional-bonus");
-    const totalReturnPercent = document.getElementById("professional-return");
+    const proPercentIncrease = document.getElementById("professional-percent");
 
     const duration = durationDays.innerText.split(' ');
     const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
-    const totalReturn = totalReturnPercent.innerText.substring(0, totalReturnPercent.innerText.length - 1);
+    const percentIncrease = proPercentIncrease.innerText.substring(0, proPercentIncrease.innerText.length - 1);
 
-    postInvetment(name, duration, referralBonus, totalReturn);
+    postInvetment(name, duration, referralBonus, percentIncrease);
 };
 
 const masterPlan = () => {
     const name = document.getElementById("master-plan");
     const durationDays = document.getElementById("master-duration");
     const referralBonusPercent = document.getElementById("master-bonus");
-    const totalReturnPercent = document.getElementById("master-return");
+    const masterPercentIncrease = document.getElementById("master-percent");
 
     const duration = durationDays.innerText.split(' ');
     const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
-    const totalReturn = totalReturnPercent.innerText.substring(0, totalReturnPercent.innerText.length - 1);
+    const percentIncrease = masterPercentIncrease.innerText.substring(0, masterPercentIncrease.innerText.length - 1);
 
-    postInvetment(name, duration, referralBonus, totalReturn);
+    postInvetment(name, duration, referralBonus, percentIncrease);
 };
 
 Array.from(investNowBtn).map((btn, idx) => {
@@ -777,7 +780,7 @@ if(window.location.pathname === '/unicoinXchange.org/page/contact-us.html'){
         e.preventDefault();
         contactSubBtn.children[0].style.display = "inline-block"
 
-        axios.post("http://127.0.0.1:7000/api/v1/admin/createContact", {
+        axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/createContact", {
             name:name.value.trim(),
             email:email.value.trim(),
             phoneNumber:number.value.trim(),
