@@ -106,7 +106,6 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
         // ADMIN REGISTRATION
         const registrationForm = document.querySelector(".registration-form");
 
-
         const register = () => {
             const fullName = document.getElementById("full-name");
             const emailAddress = document.getElementById("email-address");
@@ -198,7 +197,6 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
             login();
         });
 
-
         // FORGOT PASSWORD
         const forgotPasswordForm = document.getElementById("forgotPassword");
 
@@ -256,7 +254,6 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
             e.preventDefault();
             resetPassword();
         })
-
 
         //  TOGGLE VIEW PASSWORD
         const adminPassword = document.getElementById("passcode")
@@ -415,11 +412,38 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
             })
           })
 
+        // DELETE CLIENT 
+        const trashBtns = document.querySelectorAll(".fa-trash");
+        Array.from(trashBtns).map( trashBtn => {
+            trashBtn.addEventListener("click", () => {
+                const jwtToken = localStorage.getItem("adminJwtToken")
+                const userId = trashBtn.parentElement.querySelector(".userId").innerText;
+    
+                axios.delete(`https://unicoinxbackend.onrender.com/api/v1/admin/deleteUser/${userId}`,{
+                    headers: {
+                        "Content-Type" : 'application/json',
+                        "Authorization" : `Bearer ${jwtToken}`
+                }}).then(res =>{
+                    console.log(res)
+                }).catch(err =>{
+                    console.log(err)
+                })
+            })
+        })
+
           if(delBtn.innerText === "Delete Client"){
             delBtn.innerText = "Cancel..."
           }else{
             delBtn.innerText = "Delete Client"
           }
+
+          const navigation = document.querySelector(".navigation");
+          const closeBtn = document.querySelector(".fa-times");
+          const hamBurger = document.querySelector(".fa-bars");
+  
+          navigation.classList.remove("active-nav");
+          closeBtn.style.display = "none";
+          hamBurger.style.display = "block";
         })
 
         const updateAdminDetailsForm = document.querySelector(".update-admin-details-form");
@@ -518,7 +542,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         })
     };
 
-    const  retriveCards = () => {
+    const retriveCards = () => {
         const userCardsWrap = document.querySelector(".user-cards-wrap");
         if(userCardsWrap.children !== null){
             const userCards = userCardsWrap.getElementsByClassName("user-card");
@@ -643,7 +667,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         const closeBtn = document.querySelector(".fa-times");
         const hamBurger = document.querySelector(".fa-bars");
 
-        navigation.classList.toggle("active-nav");
+        navigation.classList.remove("active-nav");
         closeBtn.style.display = "none";
         hamBurger.style.display = "block";
     });
@@ -704,7 +728,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         const closeBtn = document.querySelector(".fa-times");
         const hamBurger = document.querySelector(".fa-bars");
 
-        navigation.classList.toggle("active-nav");
+        navigation.classList.remove("active-nav");
         closeBtn.style.display = "none";
         hamBurger.style.display = "block";
     })
@@ -827,7 +851,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         const closeBtn = document.querySelector(".fa-times");
         const hamBurger = document.querySelector(".fa-bars");
 
-        navigation.classList.toggle("active-nav");
+        navigation.classList.remove("active-nav");
         closeBtn.style.display = "none";
         hamBurger.style.display = "block";
     });
