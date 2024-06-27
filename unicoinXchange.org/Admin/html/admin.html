@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Arimo:400,400i,700,700i&amp;display=swap" rel="stylesheet">
     <link href="../../fronta/css/font-awesome-all.css" rel="stylesheet">
     <link href="../css/admin.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../../node_modules/three-dots/dist/three-dots.min.css">
 </head>
 <body>
     <div class="admin-dashboard">
@@ -63,7 +64,10 @@
                         <label class="form-label" for="email-address">Email Address</label>
                         <input type="email" id="email-address" name="email" value="" placeholder="" data-msg-email="Enter a valid email." data-msg-required="Required." required/>
                     </div>
-                    <button class="btn" type="submit">Edit Details</button>
+                    <button class="btn" type="submit">
+                        <div class="dot-windmill loader1"></div>
+                        Edit Details
+                    </button>
                 </form>
 
                  <!-- Upadate Password Form -->
@@ -96,7 +100,10 @@
                         </div>
                         <input type="password" id="confirm-password" name="confirm-password" value="" required/>
                     </div>
-                    <button class="btn" type="submit">Update Password</button>
+                    <button class="btn" type="submit">
+                        <div class="dot-windmill loader2"></div>
+                        Update Password
+                    </button>
                     <p class="pass-err-msg"></p>
                 </form>
 
@@ -114,7 +121,10 @@
                         <label class="form-label" for="new-password">Coin</label>
                         <input type="text" id="coin-type" name="crypto-coin" value="" required/>
                     </div>
-                    <button class="btn" type="submit">Update Amount</button>
+                    <button class="btn" type="submit">
+                        <div class="dot-windmill loader3"></div>
+                        Update Amount
+                    </button>
                 </form>
             </div>
         </div>

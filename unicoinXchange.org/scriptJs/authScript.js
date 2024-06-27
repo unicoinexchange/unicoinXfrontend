@@ -50,7 +50,7 @@ closeModalBtn && closeModalBtn.addEventListener("click", () => {
     const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"))
     
     modal.classList.remove("open-popup");
-    if(navigate.status === "error") return;
+    if(navigate.status === "error" || navigate.message === "You already have an active investment, You can only upgrade to a higher plan") return;
     window.location.href = navigate.location;  
 });
 
@@ -134,12 +134,13 @@ const setPopUpMsg = (message, location, status) => {
 };
 
 const register = () => {
+    const loader = document.querySelector(".spinner-border")
     if(password.value !== passwordConfirm.value){
         const errMsg = document.querySelector(".pass-err-msg")
         errMsg.innerText = "Passwords must be the same";
         return;
     }
-
+    loader.style.display = "inline-block"
     axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userSignUp", {
         name: fullname.value.trim(),
         email: email.value.trim(),
@@ -150,11 +151,13 @@ const register = () => {
         const status = "success"
         const message = res.data.message;
         const location = 'otp.html'
+        loader.style.display = "none"
         setPopUpMsg(message, location, status)
     }).catch(err => {
         console.log(err);
         const status = "error"
         const message = err.response.data.message;
+        loader.style.display = "none"
         setPopUpMsg(message, null, status)
     });
 };
@@ -166,6 +169,8 @@ formOne && formOne.addEventListener("submit", (e) => {
 
 // USER VERIFY OTP TOKEN
 const verifyOtp = () => {
+    const loader = document.querySelector(".spinner-border")
+    loader.style.display = "inline-block"
     axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userVerifyOTP",{
         otp:otp.value.trim()
     }).then(res => {
@@ -174,11 +179,13 @@ const verifyOtp = () => {
         const status = "success"
         const message = res.data.message;
         const location = 'index.html'
+        loader.style.display = "none"
         setPopUpMsg(message, location, status)
     }).catch(err => {
         console.log(err);
         const status = "error"
         const message = err.response.data.message;
+        loader.style.display = "none"
         setPopUpMsg(message, null, status)
     });
 };
@@ -190,20 +197,24 @@ otpForm && otpForm.addEventListener("submit", (e) => {
 
 // USER LOGIN
 const login = () => {
+    const loader = document.querySelector(".spinner-border");
+    loader.style.display = "inline-block";
     axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userLogIn", {
         email: loginEmail.value.trim(),
         password: loginPassword.value.trim()
     }).then(res => {
         res.data.status === "success";
         storeJWT(res.data.JWTToken, res.data.data.user);
-        const status = "success"
+        const status = "success";
         const message = res.data.message;
-        const location = 'index.html'
+        const location = 'index.html';
+        loader.style.display = "none";
         setPopUpMsg(message, location, status)
     }).catch(err => {
         console.log(err);
-        const status = "error"
+        const status = "error";
         const message = err.response.data.message;
+        loader.style.display = "none";
         setPopUpMsg(message, null, status)
     });
 };
@@ -215,13 +226,17 @@ loginForm && loginForm.addEventListener("submit", (e) => {
 
 // FORGOT PASSWORD
 const forgetPassword = () => {
+    const loader = document.querySelector(".spinner-border");
+    loader.style.display = "inline-block";
     axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userForgetPassword", {
         email: forgotPassEmail.value.trim()
     }).then(res => {
         res.data.status === "success";
+        loader.style.display = "none";
         window.location.href = "resetPassword.html";
     }).catch(res => {
         console.log(res);
+        loader.style.display = "none";
     });
 };
 
@@ -232,11 +247,14 @@ forgotPassForm && forgotPassForm.addEventListener("submit", (e) => {
 
 // RESET PASSWORD
 const resetPassword = () => {
+    const loader = document.querySelector(".spinner-border");
     if(resetPass.value !== confirmResetPass.value){
         const errMsg = document.querySelector(".pass-err-msg")
         errMsg.innerText = "Passwords must be the same";
         return;
     }
+    
+    loader.style.display = "inline-block";
 
     axios.patch("https://unicoinxbackend.onrender.com/api/v1/users/userResetPassword", {
         otp: resetPassOtp.value.trim(),
@@ -245,9 +263,11 @@ const resetPassword = () => {
     }).then(res => {
         res.data.status === "success"
         storeJWT(res.data.JWTToken, res.data.data.user);
+        loader.style.display = "none";
         window.location.href = '../index.html';
     }).catch(err => {
         console.log(err);
+        loader.style.display = "none";
     });
 };
 
@@ -373,7 +393,7 @@ const populateDashboard = (data) => {
     if(data.data.investmentStatus === false){
         investMentStatus.firstElementChild.innerHTML = "You do not have an Active Investment"
     }else{
-        investMentStatus.firstElementChild.innerHTML = "Your Investment is Active"
+        investMentStatus.firstElementChild.innerHTML = `Your Investment is Active: ${data.data.investmentPlan.name}`
     }
 
     populateHistory(data);
@@ -383,10 +403,14 @@ const authenticateEditForms = (editUserDetailsForm, editUserPasswordForm) => {
     
     editUserDetailsForm.addEventListener("submit", (e) => {
         e.preventDefault();
+        const loader = document.querySelector(".spinner-border");
+       
         const jwtToken = localStorage.getItem("jwtToken");
 
         const fullName = document.getElementById("full-name");
         const emailAddress = document.getElementById("email-address");
+
+        loader.style.display = "inline-block";
 
         axios.patch("https://unicoinxbackend.onrender.com/api/v1/users/", {
             name: fullName.value.trim(),
@@ -400,25 +424,30 @@ const authenticateEditForms = (editUserDetailsForm, editUserPasswordForm) => {
             localStorage.removeItem("userData");
             localStorage.setItem("userData", JSON.stringify(res.data.data.user));
             loadUser();
+            loader.style.display = "none";
             editUserDetailsForm.classList.remove("active-password-form");
         }).catch(err => {
             console.log(err);
+            loader.style.display = "none";
         });
     });
 
     editUserPasswordForm.addEventListener("submit", (e) => {
         e.preventDefault();
+        const loader = document.querySelector(".loader");
         const jwtToken = localStorage.getItem("jwtToken");
 
         const currentPass = document.getElementById("current-password");
         const newPassword = document.getElementById("new-password");
         const confirmPassword = document.getElementById("confirm-password");
+        const errMsg = document.querySelector(".pass-err-msg")
 
         if(newPassword.value !== confirmPassword.value){
-            const errMsg = document.querySelector(".pass-err-msg")
             errMsg.innerText = "Passwords must be the same";
             return;
         }
+
+        loader.style.display = "inline-block";
 
         axios.patch("https://unicoinxbackend.onrender.com/api/v1/users/userUpdatePassword", {
                 currentPassword: currentPass.value.trim(),
@@ -430,9 +459,12 @@ const authenticateEditForms = (editUserDetailsForm, editUserPasswordForm) => {
             }}
         ).then(res => {
             localStorage.setItem("jwtToken", res.data.JWTToken);
+            loader.style.display = "none";
             editUserPasswordForm.classList.remove("active-password-form");
         }).catch(err => {
             console.log(err);
+            loader.style.display = "none";
+            errMsg.innerText = err.response.data.message;
         });
     });
 };
@@ -464,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dashNavigationBtn = document.querySelector(".dashboard-nav");
     const subMenu = document.querySelector(".update-details");
 
-    dashNavigationBtn.children[3].addEventListener("click", () => {
+    dashNavigationBtn.children[4].addEventListener("click", () => {
         subMenu.classList.toggle("active-sub-menu");
     });
 
@@ -491,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
         historyBoard.classList.remove("active-his-board");
     });
 
-    dashNavigationBtn.children[2].addEventListener("click", () => {
+    dashNavigationBtn.children[3].addEventListener("click", () => {
         historyBoard.classList.toggle("active-his-board");
         subMenu.classList.remove("active-sub-menu");
         updateDetailsForm.classList.remove("active-password-form");
@@ -581,10 +613,11 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
 dashboardBtn && dashboardBtn.addEventListener("click", () => {
-    if(window.location.pathname === '/unicoinXchange.org/index.html' || window.location.pathname === '/unicoinXchange.org/investments.html'){
+    if(window.location.pathname === '/unicoinXchange.org/index.html'){
         window.location.href = 'page/dashboard.html';
     }else if(window.location.pathname === '/unicoinXchange.org/page/about-us.html' || 
              window.location.pathname === '/unicoinXchange.org/page/faqs.html' || 
+               window.location.pathname === '/unicoinXchange.org/page/investment.html' || 
              window.location.pathname === '/unicoinXchange.org/page/contact-us.html' || 
              window.location.pathname === '/unicoinXchange.org/page/privacy-policy.html' || 
              window.location.pathname === '/unicoinXchange.org/page/terms-and-condition.html' ||
@@ -612,10 +645,10 @@ const postInvetment = (name, duration, referralBonus, percentIncrease) => {
         "Authorization" : `Bearer ${jwtToken}`
     }}).then(res => {
         res.data.status === "success";
-        console.log(res.data.message)
         const status = "success"
         const message = res.data.message;
-        const location = './page/select-wallet.html'
+        var location = window.location.pathname === "/unicoinXchange.org/index.html" ? "./page/select-wallet.html" : "select-wallet.html";
+
         setPopUpMsg(message, location, status)
     }).catch(err => {
         console.log(err);

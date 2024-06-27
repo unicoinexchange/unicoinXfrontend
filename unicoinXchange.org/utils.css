@@ -119,10 +119,16 @@
         margin-left: 45%;
     }
     .logo-img{
-        width: 300% !important;
+        width: 280% !important;
     }
     .pop{
         width:300px;
+    }
+    .show-password{
+        right:0px;
+    } 
+    .show-passwordd{
+        right:0px;
     }
 }
 

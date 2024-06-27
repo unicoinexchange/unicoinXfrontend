@@ -107,6 +107,8 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
         const registrationForm = document.querySelector(".registration-form");
 
         const register = () => {
+            const loader = document.querySelector(".loader");
+            
             const fullName = document.getElementById("full-name");
             const emailAddress = document.getElementById("email-address");
             const password = document.getElementById("passcode");
@@ -118,6 +120,8 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 return;
             }
 
+            loader.style.display = "inline-block";
+            console.log(loader)
             axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminSignUp", {
                 name: fullName.value.trim(),
                 email: emailAddress.value.trim(),
@@ -128,10 +132,12 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 const formId = "reg"
                 const status = "success"
                 const message = res.data.message;
+                loader.style.display = "none";
                 setPopUpMsg(message, null, status, formId);
             }).catch(err => {
                 const status = "error"
                 const message = err.response.data.message;
+                loader.style.display = "none";
                 setPopUpMsg(message, null, status, null);
             });
         };
@@ -145,7 +151,10 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
         const otpForm = document.querySelector(".otp-form");
 
         const verifyOtp = () => {
+            const loader = document.querySelector(".loaderOne");
+            
             const otp = document.getElementById("otp");
+            loader.style.display = "inline-block";
 
             axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminVerifyOTP",{
                 otp:otp.value.trim()
@@ -155,10 +164,12 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 const status = "success"
                 const message = res.data.message;
                 const location = 'admin.html'
+                loader.style.display = "none";
                 setPopUpMsg(message, location, status, null)
             }).catch(err => {
                 const status = "error"
                 const message = err.response.data.message;
+                loader.style.display = "none";
                 setPopUpMsg(message, null, status, null)
             });
         };
@@ -172,8 +183,12 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
         const loginForm = document.querySelector(".login-form");
 
         const login = () => {
+            const loader = document.querySelector(".loaderTwo");
+            
             const loginEmail = document.getElementById("email-address2");
             const loginPassword = document.getElementById("password");
+
+            loader.style.display = "inline-block";
 
             axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminLogin", {
                 email: loginEmail.value.trim(),
@@ -184,10 +199,12 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 const status = "success"
                 const message = res.data.message;
                 const location = 'admin.html'
+                loader.style.display = "none";
                 setPopUpMsg(message, location, status, null)
             }).catch(err => {
                 const status = "error"
                 const message = err.response.data.message;
+                loader.style.display = "none";
                 setPopUpMsg(message, null, status, null)
             });
         };
@@ -201,7 +218,10 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
         const forgotPasswordForm = document.getElementById("forgotPassword");
 
         const forgotPassword = () => {
+            const loader = document.querySelector(".loaderThree");
             const forgotPassEmail = document.getElementById("forgot-pass-mail");
+
+            loader.style.display = "inline-block";
 
             axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminForgetPassword", {
                 email:forgotPassEmail.value.trim()
@@ -209,10 +229,12 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 const formId = "forgotPass"
                 const status = "success"
                 const message = res.data.message;
+                loader.style.display = "none";
                 setPopUpMsg(message, null, status, formId)
             }).catch(err => {
                 const status = "error"
                 const message = err.response.data.message;
+                loader.style.display = "none";
                 setPopUpMsg(message, null, status, null)
             });
         };
@@ -227,6 +249,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
 
         const resetPassword = () => {
             
+            const loader = document.querySelector(".loaderFour");
             const resetPassOtp = document.getElementById("admin-otp");
             const newPass = document.getElementById("admin-password");
             const confirmResetPass = document.getElementById("admin-confirm-password");
@@ -237,6 +260,8 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
                 return;
             }
 
+            loader.style.display = "inline-block";
+
             axios.patch("https://unicoinxbackend.onrender.com/api/v1/admin/adminResetPassword", {
                 otp: resetPassOtp.value.trim(),
                 password: newPass.value.trim(),
@@ -244,9 +269,11 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
             }).then(res => {
                 res.data.status === "success"
                 storeJWT(res.data.JWTToken, res.data.data.user);
+                loader.style.display = "none";
                 window.location.href = 'admin.html';
             }).catch(err => {
                 console.log(err);
+                loader.style.display = "none";
             });
         }
 
@@ -474,25 +501,31 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
 
         UpdateCliInvestForm.addEventListener("submit", (e) => {
             e.preventDefault();
+
+            const loader = document.querySelector(".loader3");
             const jwtToken = localStorage.getItem("adminJwtToken")
         
             const amount = document.getElementById("ammount");
             const coin = document.getElementById("coin-type");
 
-            axios.post(`https://unicoinxbackend.onrender.com/api/v1/admin/setUserInvestmentAmount/${userId}`,{
-                amount: amount.value.trim(),
-                paymentMode: coin.value.trim(),
-            },{
-                headers: {
-                    "Content-Type" : 'application/json',
-                    "Authorization" : `Bearer ${jwtToken}`
+            loader.style.display = "inline-block";
+
+        axios.post(`https://unicoinxbackend.onrender.com/api/v1/admin/setUserInvestmentAmount/${userId}`,{
+                    amount: amount.value.trim(),
+                    paymentMode: coin.value.trim(),
+                },{
+                    headers: {
+                        "Content-Type" : 'application/json',
+                        "Authorization" : `Bearer ${jwtToken}`
             }}).then(res => {
                 const status = "success"
                 const message = res.data.message;
+                loader.style.display = "none";
                 setPopUpMsg(message, null, status, null)
             }).catch(err => {
                 const status = "error"
                 const message = err.response.data.message;
+                loader.style.display = "none";
                 setPopUpMsg(message, null, status, null)
             })
         });
@@ -696,10 +729,13 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         updateAdminDetailsForm.addEventListener("submit", (e) => {
             e.preventDefault();
 
+            const loader = document.querySelector(".loader1");
             const jwtToken = localStorage.getItem("adminJwtToken");
 
             const fullName = document.getElementById("full-name");
             const emailAddress = document.getElementById("email-address");
+
+            loader.style.display = "inline-block";
 
             axios.patch("https://unicoinxbackend.onrender.com/api/v1/admin/",{
                 name: fullName.value.trim(),
@@ -713,10 +749,12 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
                 localStorage.setItem("adminData", JSON.stringify(res.data.data.user));
                 const status = "success";
                 const message = res.data.message;
+                loader.style.display = "none";
                 setPopUpMsg(message, null, status, null);
             }).catch(err => {
                 const status = "error";
                 const message = err.response.data.message;
+                loader.style.display = "none";
                 setPopUpMsg(message, null, status, null);
             })
         })
@@ -759,6 +797,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         updateAdminPasswordForm.addEventListener("submit", (e) => {
             e.preventDefault();
 
+            const loader = document.querySelector(".loader2");
             const currentPassword = document.getElementById("current-password");
             const newPassword = document.getElementById("new-password");
             const confirmPassword = document.getElementById("confirm-password");
@@ -768,6 +807,8 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
                 errMsg.innerText = "Passwords must be the same";
                 return;
             }
+
+            loader.style.display = "inline-block";
 
             axios.patch(`https://unicoinxbackend.onrender.com/api/v1/admin/adminUpdatePassword`,{
                     currentPassword: currentPassword.value.trim(),
@@ -782,10 +823,12 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
                     localStorage.setItem("adminJwtToken", res.data.JWTToken);
                     const status = "success";
                     const message = "Password updated successfully";
+                    loader.style.display = "none";
                     setPopUpMsg(message, null, status, null);
                 }).catch(err => {
                     const status = "error";
                     const message = err.response.data.message;
+                    loader.style.display = "none";
                     setPopUpMsg(message, null, status, null);
                 })
         });
