@@ -236,6 +236,9 @@
 }
 .btn{
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding:2% 0%;
     font-size: 15px;
     font-weight: bold;
@@ -243,6 +246,12 @@
     background-color: black;
     color:white;
     border-radius: 5px;
+    cursor: pointer;
+}
+.dot-windmill{
+    margin-right: 20px;
+    background-color: #ffffff !important;
+    display: none;
 }
 .update-cli-inv-form{
     display:none;
