@@ -42,6 +42,7 @@
     transform: translate(-50%, -50%) scale(1);
 }
 .pop img{
+    background-color: #fff;
     width:100px;
     margin-top: -50px;
     border-radius: 50%;

@@ -29,15 +29,41 @@ const openPopup = () => {
     }
 
     if(navigate.status === "error"){
-        modal.children[0].src = "./unicoinXchange.org/fronta/images/icons/error.png"
+        if(window.location.pathname === '/index.html'){
+             modal.children[0].src = "./unicoinXchange.org/fronta/images/icons/error.png"
+        }
+        if(window.location.pathname === '/unicoinXchange.org/page/investment.html'||
+           window.location.pathname === '/unicoinXchange.org/password/forget.html' || 
+           window.location.pathname === '/unicoinXchange.org/password/resetPassword.html'
+        ){
+            modal.children[0].src = "../fronta/images/icons/error.png"
+        }
+        if(window.location.pathname === '/unicoinXchange.org/register.html'||
+            window.location.pathname === '/unicoinXchange.org/otp.html' || 
+            window.location.pathname === '/unicoinXchange.org/login.html'
+         ){
+             modal.children[0].src = "./fronta/images/icons/error.png"
+         }
         modal.children[1].innerHTML = "Error!!!"
         modal.children[2].innerHTML = navigate.message
         modal.children[1].classList.add("error");
         modal.children[3].classList.add("btnErr");
         modal.classList.add("open-popup")
     }
+    
     if(navigate.status === "success"){
-        modal.children[0].src = "./unicoinXchange.org/fronta/images/icons/check.png"
+        if(window.location.pathname === '/index.html'){
+            modal.children[0].src = "./unicoinXchange.org/fronta/images/icons/check.png"
+        }
+        if(window.location.pathname === '/unicoinXchange.org/page/investment.html'|| window.location.pathname === '/unicoinXchange.org/password/forget.html'){
+            modal.children[0].src = "../fronta/images/icons/check.png"
+        }
+        if(window.location.pathname === '/unicoinXchange.org/register.html'||
+            window.location.pathname === '/unicoinXchange.org/otp.html' || 
+            window.location.pathname === '/unicoinXchange.org/login.html'
+        ){
+            modal.children[0].src = "./fronta/images/icons/check.png"
+        }
         modal.children[1].innerHTML = "Thank You!"
         modal.children[2].innerHTML = navigate.message
         modal.children[1].classList.add("success");
@@ -178,7 +204,7 @@ const verifyOtp = () => {
         storeJWT(res.data.JWTToken, res.data.data.user);
         const status = "success"
         const message = res.data.message;
-        const location = '../unicoinXchange.org/index.html'
+        const location = '../../index.html'
         loader.style.display = "none"
         setPopUpMsg(message, location, status)
     }).catch(err => {
@@ -208,7 +234,7 @@ const login = () => {
         storeJWT(res.data.JWTToken, res.data.data.user);
         const status = "success";
         const message = res.data.message;
-        const location = '../unicoinXchange.org/index.html';
+        const location = '../../index.html';
         loader.style.display = "none";
         setPopUpMsg(message, location, status)
     }).catch(err => {
@@ -561,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     logoutBtn.addEventListener("click", () => {
         localStorage.removeItem("jwtToken");
-        window.location.href =  '../index.html';
+        window.location.href =  '../../index.html';
     });
 
      // AUTHENTICATE EDIT FORMS
@@ -569,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // USER DASHBOARD SHOW PASSWORD
 
-    // CURRENT PASS WORD
+    // CURRENT PASSWORD
     const currentPassEye = document.querySelector(".fa-eye");
     const currPassSlashEye = document.querySelector(".fa-eye-slash");
     const currentPassInput = document.getElementById("current-password");

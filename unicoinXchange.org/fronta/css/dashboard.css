@@ -291,8 +291,8 @@
     position: absolute;
     background-color: rgb(255, 255, 255);
     padding: 1%;
-    top:260px;
-    right:-500px;
+    top:-500px;
+    right:20px;
     width:35%;
     box-shadow: 0px 0px 15px 1px rgb(226, 226, 226);
     transition-duration:1s;
@@ -300,13 +300,13 @@
     z-index: 1;
 }
 .active-his-board{
-    right:20px;
+    top:200px;
 }
 .his-title{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 10px;
+    color:blue;
 }
 .transactions{
     display:flex;
@@ -344,17 +344,17 @@
     }
     .history-board{
         width:90%;
-        top:400px;
+        top:-700px;
     }
     .active-his-board{
-        right:20px;
+        top:400px;
     }
-    .his-title{
-        font-size: 8px;
+    .transactions p{
+        font-size: 12px;
     }
     .global{
         width:95%;
-        border-radius:0px;
+        border-radius:5px;
         margin: 2px auto;
     }
     .global p:first-child{
@@ -395,11 +395,11 @@
         margin-top: 0px;
     }
     .update-details li{
-        width:95%;
+        width:70% !important;
         border: none;
-        background-color: black !important;
+        background-color: rgb(0, 0, 0) !important;
         margin-top: 0px;
-        border-radius: 5px !important;
+        border-radius: 50px !important;
         color: white !important;
     }
     .finance-info{
