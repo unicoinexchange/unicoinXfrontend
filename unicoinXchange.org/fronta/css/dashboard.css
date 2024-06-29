@@ -118,7 +118,7 @@
    text-align: center;
 }
 .acct-info ul li:nth-child(3){
-    background-color: blue;
+    background-color: rgb(0, 106, 193);
 }
 .update-details{
     flex-direction: column;
@@ -235,7 +235,7 @@
 }
 .card1 i{
     font-size: 35px;
-    color:blue;
+    color: rgb(0, 106, 193);;
 }
 
 /* UPDATE DETAILS FORM */

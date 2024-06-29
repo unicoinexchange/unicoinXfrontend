@@ -24,12 +24,12 @@ const closeModalBtn = document.getElementById("close-modal");
 const openPopup = () => {
     const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"));
     
-    if(window.location.pathname === '/unicoinXchange.org/index.html'){
+    if(window.location.pathname === '/index.html'){
         modal.style.top = "64%";
     }
 
     if(navigate.status === "error"){
-        modal.children[0].src = "./fronta/images/icons/error.png"
+        modal.children[0].src = "./unicoinXchange.org/fronta/images/icons/error.png"
         modal.children[1].innerHTML = "Error!!!"
         modal.children[2].innerHTML = navigate.message
         modal.children[1].classList.add("error");
@@ -37,7 +37,7 @@ const openPopup = () => {
         modal.classList.add("open-popup")
     }
     if(navigate.status === "success"){
-        modal.children[0].src = "./fronta/images/icons/check.png"
+        modal.children[0].src = "./unicoinXchange.org/fronta/images/icons/check.png"
         modal.children[1].innerHTML = "Thank You!"
         modal.children[2].innerHTML = navigate.message
         modal.children[1].classList.add("success");
@@ -178,7 +178,7 @@ const verifyOtp = () => {
         storeJWT(res.data.JWTToken, res.data.data.user);
         const status = "success"
         const message = res.data.message;
-        const location = 'index.html'
+        const location = '../unicoinXchange.org/index.html'
         loader.style.display = "none"
         setPopUpMsg(message, location, status)
     }).catch(err => {
@@ -198,6 +198,7 @@ otpForm && otpForm.addEventListener("submit", (e) => {
 // USER LOGIN
 const login = () => {
     const loader = document.querySelector(".spinner-border");
+
     loader.style.display = "inline-block";
     axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userLogIn", {
         email: loginEmail.value.trim(),
@@ -207,7 +208,7 @@ const login = () => {
         storeJWT(res.data.JWTToken, res.data.data.user);
         const status = "success";
         const message = res.data.message;
-        const location = 'index.html';
+        const location = '../unicoinXchange.org/index.html';
         loader.style.display = "none";
         setPopUpMsg(message, location, status)
     }).catch(err => {
@@ -231,12 +232,19 @@ const forgetPassword = () => {
     axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userForgetPassword", {
         email: forgotPassEmail.value.trim()
     }).then(res => {
+        console.log(res)
         res.data.status === "success";
+        const status = "success";
+        const message = res.data.message;
+        const location = "resetPassword.html";
         loader.style.display = "none";
-        window.location.href = "resetPassword.html";
-    }).catch(res => {
-        console.log(res);
+        setPopUpMsg(message, location, status)
+    }).catch(err => {
+        console.log(err);
+        const status = "error";
+        const message = err.response.data.message;
         loader.style.display = "none";
+        setPopUpMsg(message, null, status)
     });
 };
 
@@ -264,10 +272,13 @@ const resetPassword = () => {
         res.data.status === "success"
         storeJWT(res.data.JWTToken, res.data.data.user);
         loader.style.display = "none";
-        window.location.href = '../index.html';
+        window.location.href = '../../index.html';
     }).catch(err => {
         console.log(err);
+        const status = "error";
+        const message = err.response.data.message;
         loader.style.display = "none";
+        setPopUpMsg(message, null, status)
     });
 };
 
@@ -613,8 +624,8 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
 dashboardBtn && dashboardBtn.addEventListener("click", () => {
-    if(window.location.pathname === '/unicoinXchange.org/index.html'){
-        window.location.href = 'page/dashboard.html';
+    if(window.location.pathname === '/index.html'){
+        window.location.href = './unicoinXchange.org/page/dashboard.html';
     }else if(window.location.pathname === '/unicoinXchange.org/page/about-us.html' || 
              window.location.pathname === '/unicoinXchange.org/page/faqs.html' || 
                window.location.pathname === '/unicoinXchange.org/page/investment.html' || 
@@ -647,7 +658,7 @@ const postInvetment = (name, duration, referralBonus, percentIncrease) => {
         res.data.status === "success";
         const status = "success"
         const message = res.data.message;
-        var location = window.location.pathname === "/unicoinXchange.org/index.html" ? "./page/select-wallet.html" : "select-wallet.html";
+        var location = window.location.pathname === "/index.html" ? "./unicoinXchange.org/page/select-wallet.html" : "select-wallet.html";
 
         setPopUpMsg(message, location, status)
     }).catch(err => {
