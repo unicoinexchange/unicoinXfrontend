@@ -1,5 +1,6 @@
 const fullname = document.getElementById("full-name");
 const email = document.getElementById("email-address");
+const mobileNumber = document.getElementById("mobile-number");
 const password = document.getElementById("passcode");
 const passwordConfirm = document.getElementById("passcodeConfirm");
 const formOne = document.getElementById("registerForm");
@@ -24,7 +25,7 @@ const closeModalBtn = document.getElementById("close-modal");
 const openPopup = () => {
     const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"));
     
-    if(window.location.pathname === '/index.html'){
+    if(window.location.pathname === '/index.html' || window.location.pathname === '/'){
         modal.style.top = "64%";
     }
 
@@ -50,7 +51,7 @@ const openPopup = () => {
         modal.children[3].classList.add("btnErr");
         modal.classList.add("open-popup")
     }
-    
+
     if(navigate.status === "success"){
         if(window.location.pathname === '/index.html'){
             modal.children[0].src = "./unicoinXchange.org/fronta/images/icons/check.png"
@@ -166,10 +167,18 @@ const register = () => {
         errMsg.innerText = "Passwords must be the same";
         return;
     }
+    
+    if(mobileNumber.value.length > 15 || mobileNumber.value.length < 11){
+        const errMsg = document.querySelector(".pass-err-msg")
+        errMsg.innerText = "Mobile number incorrect";
+        return;
+    }
+
     loader.style.display = "inline-block"
     axios.post("https://unicoinxbackend.onrender.com/api/v1/users/userSignUp", {
         name: fullname.value.trim(),
         email: email.value.trim(),
+        mobileNumber: mobileNumber.value.trim(),
         password: password.value.trim(),
         passwordConfirm: passwordConfirm.value.trim(),
     }).then(res => {
@@ -204,7 +213,7 @@ const verifyOtp = () => {
         storeJWT(res.data.JWTToken, res.data.data.user);
         const status = "success"
         const message = res.data.message;
-        const location = '../../index.html'
+        const location = '../index.html'
         loader.style.display = "none"
         setPopUpMsg(message, location, status)
     }).catch(err => {
@@ -234,7 +243,7 @@ const login = () => {
         storeJWT(res.data.JWTToken, res.data.data.user);
         const status = "success";
         const message = res.data.message;
-        const location = '../../index.html';
+        const location = '../index.html';
         loader.style.display = "none";
         setPopUpMsg(message, location, status)
     }).catch(err => {
@@ -329,15 +338,13 @@ const launchAnimation = () => {
             scrollerContent.forEach((item) => {
                 const duplicatedItem = item.cloneNode(true);
                 duplicatedItem.setAttribute("aria-hidden", true);
-                console.log(duplicatedItem);
+                
                 scrollerInner.appendChild(duplicatedItem);
             });
         });
     };  
 
-    if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-        addAnimation();
-    };
+    addAnimation();
 };
 
 const displayCryptoPrice = (cryptoData) => {
@@ -650,7 +657,7 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
 dashboardBtn && dashboardBtn.addEventListener("click", () => {
-    if(window.location.pathname === '/index.html'){
+    if(window.location.pathname === '/index.html' || window.location.pathname === '/'){
         window.location.href = './unicoinXchange.org/page/dashboard.html';
     }else if(window.location.pathname === '/unicoinXchange.org/page/about-us.html' || 
              window.location.pathname === '/unicoinXchange.org/page/faqs.html' || 
@@ -684,8 +691,7 @@ const postInvetment = (name, duration, referralBonus, percentIncrease) => {
         res.data.status === "success";
         const status = "success"
         const message = res.data.message;
-        var location = window.location.pathname === "/index.html" ? "./unicoinXchange.org/page/select-wallet.html" : "select-wallet.html";
-
+        var location = window.location.pathname === "/index.html" || window.location.pathname === "/" ? "./unicoinXchange.org/page/select-wallet.html" : "./select-wallet.html";
         setPopUpMsg(message, location, status)
     }).catch(err => {
         console.log(err);
