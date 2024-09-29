@@ -1,6 +1,6 @@
-//const baseUrl = "https://unicoinxbackend.onrender.com" // RENDER BASE URL
+const baseUrl = "https://unicoinxbackend.onrender.com" // RENDER BASE URL
 // const baseUrl = "https://unicoinx-ba2108587a92.herokuapp.com" // HEROKU BASE URL
- const baseUrl = "http://127.0.0.1:7000" //LOCAL BASE URL
+ //const baseUrl = "http://127.0.0.1:7000" //LOCAL BASE URL
  
  // NOTIFICATION POPUP MODAL
  const modal = document.getElementById("popup");
