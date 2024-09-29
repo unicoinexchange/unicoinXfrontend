@@ -682,12 +682,11 @@ dashboardBtn && dashboardBtn.addEventListener("click", () => {
 // CREATE INVESTMENT
 const investNowBtn = document.querySelectorAll(".table-footer");
 
-const postInvetment = (name, duration, referralBonus, percentIncrease) => {
+const postInvetment = (name, duration, percentIncrease) => {
     const jwtToken = localStorage.getItem("jwtToken");
     axios.post(`${baseUrl}/api/v1/investment/createInvestment`, {
         name:name.innerText.trim(),
         duration: duration[0].trim(),
-        referralBonus: referralBonus.trim(),
         percentIncrease: percentIncrease.trim()
     },{
     headers: {
@@ -710,53 +709,45 @@ const postInvetment = (name, duration, referralBonus, percentIncrease) => {
 const rookiePlan = () => {
     const name = document.getElementById("rookie-plan");
     const durationDays = document.getElementById("rookie-duration");
-    const referralBonusPercent = document.getElementById("rookie-bonus");
     const rookiePercentIncrease = document.getElementById("rookie-percent");
 
     const duration = durationDays.innerText.split(' ');
-    const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
     const percentIncrease = rookiePercentIncrease.innerText.substring(0, rookiePercentIncrease.innerText.length - 1);
 
-    postInvetment(name, duration, referralBonus, percentIncrease);
+    postInvetment(name, duration, percentIncrease);
 };
 
 const intermediatePlan = () => {
     const name = document.getElementById("Intermediate-plan");
     const durationDays = document.getElementById("intermediate-duration");
-    const referralBonusPercent = document.getElementById("intermediate-bonus");
     const intermediatePercentIncrease = document.getElementById("intermediate-percent");
 
     const duration = durationDays.innerText.split(' ');
-    const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
     const percentIncrease = intermediatePercentIncrease.innerText.substring(0, intermediatePercentIncrease.innerText.length - 1);
 
-    postInvetment(name, duration, referralBonus, percentIncrease);
+    postInvetment(name, duration, percentIncrease);
 };
 
 const professionalPlan = () => {
     const name = document.getElementById("professional-plan");
     const durationDays = document.getElementById("professional-duration");
-    const referralBonusPercent = document.getElementById("professional-bonus");
     const proPercentIncrease = document.getElementById("professional-percent");
 
     const duration = durationDays.innerText.split(' ');
-    const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
     const percentIncrease = proPercentIncrease.innerText.substring(0, proPercentIncrease.innerText.length - 1);
 
-    postInvetment(name, duration, referralBonus, percentIncrease);
+    postInvetment(name, duration, percentIncrease);
 };
 
 const masterPlan = () => {
     const name = document.getElementById("master-plan");
     const durationDays = document.getElementById("master-duration");
-    const referralBonusPercent = document.getElementById("master-bonus");
     const masterPercentIncrease = document.getElementById("master-percent");
 
     const duration = durationDays.innerText.split(' ');
-    const referralBonus = referralBonusPercent.innerText.substring(0, referralBonusPercent.innerText.length - 1);
     const percentIncrease = masterPercentIncrease.innerText.substring(0, masterPercentIncrease.innerText.length - 1);
 
-    postInvetment(name, duration, referralBonus, percentIncrease);
+    postInvetment(name, duration, percentIncrease);
 };
 
 Array.from(investNowBtn).map((btn, idx) => {

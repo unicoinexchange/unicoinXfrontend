@@ -1,5 +1,5 @@
 const baseUrl = "https://unicoinxbackend.onrender.com" // RENDER BASE URL
-// const baseUrl = "https://unicoinx-ba2108587a92.herokuapp.com" // HEROKU BASE URL
+//const baseUrl = "https://unicoinx-ba2108587a92.herokuapp.com" // HEROKU BASE URL
 //const baseUrl = "http://127.0.0.1:7000" //LOCAL BASE URL
  
  // NOTIFICATION POPUP MODAL
@@ -607,13 +607,11 @@ if(window.location.pathname.endsWith("/admin.html")){
         const editCliInvestmentDetailsForm = document.querySelector(".edit-cli-inv-details");
         const bonus = document.getElementById("bonus");
         const referral = document.getElementById("referral");
-        const deposit = document.getElementById("deposit");
         const profit = document.getElementById("profit");
         const withdraw = document.getElementById("withdraw");
 
         bonus.value = user.investmentPlan.bonus;
         referral.value = user.investmentPlan.referralBonus;
-        deposit.value = user.investmentPlan.totalDeposit;
         profit.value = user.investmentPlan.availableProfit;
         withdraw.value = user.investmentPlan.totalWithdraw;
 
@@ -626,7 +624,6 @@ if(window.location.pathname.endsWith("/admin.html")){
             axios.patch(`${baseUrl}/api/v1/admin/editUserInvestmentDetails/${userId}`,{
                 bonus: bonus.value.trim(),
                 referralBonus: referral.value.trim(),
-                totalDeposit: deposit.value.trim(),
                 availableProfit: profit.value.trim(),
                 totalWithdraw: withdraw.value.trim()
             },{headers: {
