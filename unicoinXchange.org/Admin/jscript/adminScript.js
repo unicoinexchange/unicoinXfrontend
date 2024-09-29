@@ -1,3 +1,7 @@
+//const baseUrl = "https://unicoinxbackend.onrender.com" // RENDER BASE URL
+// const baseUrl = "https://unicoinx-ba2108587a92.herokuapp.com" // HEROKU BASE URL
+ const baseUrl = "http://127.0.0.1:7000" //LOCAL BASE URL
+ 
  // NOTIFICATION POPUP MODAL
  const modal = document.getElementById("popup");
  const closeModalBtn = document.getElementById("close-modal");
@@ -5,9 +9,9 @@
  const openPopup = () => {
      const navigate = JSON.parse(sessionStorage.getItem("notificationMsg"));
      
-     if(window.location.pathname === '/unicoinXchange.org/index.html'){
-         modal.style.top = "64%";
-     }
+    //  if(window.location.pathname === '/unicoinXchange.org/index.html' || "/"){
+    //      modal.style.top = "64%";
+    //  }
 
      if(navigate.status === "error"){
          modal.children[0].src = "../img/error.png"
@@ -72,7 +76,8 @@
     localStorage.setItem("adminData", JSON.stringify(userData));
 };
 
-if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html'){
+
+if(window.location.pathname.endsWith("/adminAuth.html")){
 
         const createAcctLink = document.getElementById("create-acct-btn");
         const forgotCodeLink = document.getElementById("forgot-code-btn");
@@ -122,7 +127,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
 
             loader.style.display = "inline-block";
             console.log(loader)
-            axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminSignUp", {
+            axios.post(`${baseUrl}/api/v1/admin/adminSignUp`, {
                 name: fullName.value.trim(),
                 email: emailAddress.value.trim(),
                 password: password.value.trim(),
@@ -156,7 +161,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
             const otp = document.getElementById("otp");
             loader.style.display = "inline-block";
 
-            axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminVerifyOTP",{
+            axios.post(`${baseUrl}/api/v1/admin/adminVerifyOTP`,{
                 otp:otp.value.trim()
             }).then(res => {
                 res.data.status === "success";
@@ -190,7 +195,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
 
             loader.style.display = "inline-block";
 
-            axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminLogin", {
+            axios.post(`${baseUrl}/api/v1/admin/adminLogin`, {
                 email: loginEmail.value.trim(),
                 password: loginPassword.value.trim()
             }).then(res => {
@@ -223,7 +228,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
 
             loader.style.display = "inline-block";
 
-            axios.post("https://unicoinxbackend.onrender.com/api/v1/admin/adminForgetPassword", {
+            axios.post(`${baseUrl}/api/v1/admin/adminForgetPassword`, {
                 email:forgotPassEmail.value.trim()
             }).then(res => {
                 const formId = "forgotPass"
@@ -262,7 +267,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
 
             loader.style.display = "inline-block";
 
-            axios.patch("https://unicoinxbackend.onrender.com/api/v1/admin/adminResetPassword", {
+            axios.patch(`${baseUrl}/api/v1/admin/adminResetPassword`, {
                 otp: resetPassOtp.value.trim(),
                 password: newPass.value.trim(),
                 passwordConfirm: confirmResetPass.value.trim()
@@ -382,7 +387,8 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/adminAuth.html')
 
 
 // MAIN ADMIN DASHBOARD
-if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
+
+if(window.location.pathname.endsWith("/admin.html")){
 
     const displayUsers = (users) => {
         const userCardsWrap = document.querySelector(".user-cards-wrap");
@@ -397,6 +403,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
             const btn2 = document.createElement("button");
             const btn3 = document.createElement("button");
             const deleteIcon = document.createElement("i");
+            const editIcon = document.createElement("i");
 
             card.classList.add("user-card");
             userId.classList.add("userId");
@@ -413,7 +420,10 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
             btn3.innerText = "De-activate Client Investment";
             deleteIcon.classList.add("fa");
             deleteIcon.classList.add("fa-trash");
+            editIcon.classList.add("fa");
+            editIcon.classList.add("fa-pen");
 
+            card.appendChild(editIcon)
             card.appendChild(userIcon)
             card.appendChild(name)
             card.appendChild(userId)
@@ -439,25 +449,6 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
             })
           })
 
-        // DELETE CLIENT 
-        const trashBtns = document.querySelectorAll(".fa-trash");
-        Array.from(trashBtns).map( trashBtn => {
-            trashBtn.addEventListener("click", () => {
-                const jwtToken = localStorage.getItem("adminJwtToken")
-                const userId = trashBtn.parentElement.querySelector(".userId").innerText;
-    
-                axios.delete(`https://unicoinxbackend.onrender.com/api/v1/admin/deleteUser/${userId}`,{
-                    headers: {
-                        "Content-Type" : 'application/json',
-                        "Authorization" : `Bearer ${jwtToken}`
-                }}).then(res =>{
-                    console.log(res)
-                }).catch(err =>{
-                    console.log(err)
-                })
-            })
-        })
-
           if(delBtn.innerText === "Delete Client"){
             delBtn.innerText = "Cancel..."
           }else{
@@ -479,8 +470,45 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         updateAdminDetailsForm.style.display = "none";
         updateAdminPasswordForm.style.display = "none";
 
+         // DELETE CLIENT 
+        const trashBtns = document.querySelectorAll(".fa-trash");
+        Array.from(trashBtns).map( trashBtn => {
+            trashBtn.addEventListener("click", () => {
+                
+                const jwtToken = localStorage.getItem("adminJwtToken")
+                const userId = trashBtn.parentElement.querySelector(".userId").innerText;
+
+                axios.delete(`${baseUrl}/api/v1/admin/deleteUser/${userId}`,{
+                    headers: {
+                        "Content-Type" : 'application/json',
+                        "Authorization" : `Bearer ${jwtToken}`
+                }}).then(res =>{
+                    console.log(res);
+                    window.reload();
+                }).catch(err =>{
+                    console.log(err)
+                })
+            })
+        })
+
         retriveCards(users)
     };
+
+    // GET ALL USER
+    const getAllUser = () => {
+        const jwtToken = localStorage.getItem("adminJwtToken")
+        
+        axios.get(`${baseUrl}/api/v1/admin/getAllUsers`, {
+            headers: {
+                "Content-Type" : 'application/json',
+                "Authorization" : `Bearer ${jwtToken}`
+            }
+        }).then(res => {
+            displayUsers(res.data.data.users);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 
     // UPDATE CLIENT INVESTMENT AMOUNT
     const updateClientInvesmentAmtForm = (userId) => {
@@ -510,7 +538,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
 
             loader.style.display = "inline-block";
 
-        axios.post(`https://unicoinxbackend.onrender.com/api/v1/admin/setUserInvestmentAmount/${userId}`,{
+        axios.post(`${baseUrl}/api/v1/admin/setUserInvestmentAmount/${userId}`,{
                     amount: amount.value.trim(),
                     paymentMode: coin.value.trim(),
                 },{
@@ -535,7 +563,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
     const activateClientInvesment = (userId) => {
         const jwtToken = localStorage.getItem("adminJwtToken")
     
-        axios.post(`https://unicoinxbackend.onrender.com/api/v1/admin/activateUserInvestment`, {
+        axios.post(`${baseUrl}/api/v1/admin/activateUserInvestment`, {
             id: userId
         },{
             headers: {
@@ -557,7 +585,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
     const deActivateClientInvesment = (userId) => {
         const jwtToken = localStorage.getItem("adminJwtToken");
           
-        axios.post(`https://unicoinxbackend.onrender.com/api/v1/admin/deactivateUserInvestment`,{
+        axios.post(`${baseUrl}/api/v1/admin/deactivateUserInvestment`,{
             id: userId
         },{
             headers: {
@@ -575,6 +603,78 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
         })
     };
 
+    const fillUserInfo = (userId, user) => {
+        const editCliInvestmentDetailsForm = document.querySelector(".edit-cli-inv-details");
+        const bonus = document.getElementById("bonus");
+        const deposit = document.getElementById("deposit");
+        const profit = document.getElementById("profit");
+        const withdraw = document.getElementById("withdraw");
+
+        bonus.value = user.investmentPlan.bonus;
+        deposit.value = user.investmentPlan.totalDeposit;
+        profit.value = user.investmentPlan.availableProfit;
+        withdraw.value = user.investmentPlan.totalWithdraw;
+
+        editCliInvestmentDetailsForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const loader = document.querySelector(".loader4");
+            loader.style.display = "inline-block";
+            const jwtToken = localStorage.getItem("adminJwtToken");
+
+            axios.patch(`${baseUrl}/api/v1/admin/editUserInvestmentDetails/${userId}`,{
+                bonus: bonus.value.trim(),
+                totalDeposit: deposit.value.trim(),
+                availableProfit: profit.value.trim(),
+                totalWithdraw: withdraw.value.trim()
+            },{headers: {
+                    "Content-Type" : 'application/json',
+                    "Authorization" : `Bearer ${jwtToken}`
+            }}).then(res => {
+                const status = "success"
+                const message = res.data.message;
+                loader.style.display = "none";
+                setPopUpMsg(message, null, status, null)
+            }).catch(err => {
+                const status = "error"
+                const message = err.response.data.message;
+                loader.style.display = "none";
+                setPopUpMsg(message, null, status, null)
+            })
+        });
+    }
+
+    // EDIT CLIENT INVESTMENT DETAILS
+    const editClientInvestmentDetails = (userId) => {
+        const userCardsWrap = document.querySelector(".user-cards-wrap");
+        const updateAdminDetailsForm = document.querySelector(".update-admin-details-form");
+        const adminsCard = document.querySelector(".admins-card");
+        const updateAdminPasswordForm = document.querySelector(".update-Admin-password-form");
+        const UpdateCliInvestForm = document.querySelector(".update-cli-inv-form");
+        const editClientInvestmentForm = document.querySelector(".edit-cli-inv-details");
+        const delBtn = document.getElementById("del-client");
+
+        userCardsWrap.style.display = "none";
+        updateAdminDetailsForm.style.display = "none";
+        updateAdminPasswordForm.style.display = "none";
+        adminsCard.style.display = "none";
+        UpdateCliInvestForm.style.display = "none";
+        editClientInvestmentForm.style.display = "block";
+        delBtn.style.display = "none";
+
+        const jwtToken = localStorage.getItem("adminJwtToken");
+
+        axios.get(`${baseUrl}/api/v1/admin/getUser/${userId}`,{
+            headers: {
+                "Content-Type" : 'application/json',
+                "Authorization" : `Bearer ${jwtToken}`
+            }
+        }).then(res => {
+            fillUserInfo(userId, res.data.data.user)
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
     const retriveCards = () => {
         const userCardsWrap = document.querySelector(".user-cards-wrap");
         if(userCardsWrap.children !== null){
@@ -582,8 +682,15 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
             const cardsArray = Array.from(userCards)
             cardsArray.map((card) => {
                 card.addEventListener("mouseover", () => {
+                    const editIcon = card.querySelector(".fa-pen")
                     const cardBtns = card.querySelectorAll(".card-btn"); 
                     const userId = card.querySelector(".userId").innerText;
+
+                    editIcon.addEventListener("click", (e) => {
+                        e.stopImmediatePropagation()
+                        editClientInvestmentDetails(userId)
+                        return;
+                    })
 
                     Array.from(cardBtns).map((cardBtn, idx) => {
                         cardBtn.addEventListener("click", (e) => {
@@ -597,21 +704,6 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
             })
         }
     };
-
-    const getAllUser = () => {
-        const jwtToken = localStorage.getItem("adminJwtToken")
-        
-        axios.get(`https://unicoinxbackend.onrender.com/api/v1/admin/getAllUsers`, {
-            headers: {
-                "Content-Type" : 'application/json',
-                "Authorization" : `Bearer ${jwtToken}`
-            }
-        }).then(res => {
-            displayUsers(res.data.data.users);
-        }).catch(err => {
-            console.log(err);
-        });
-    }
     
     document.addEventListener('DOMContentLoaded', (e) => {
         e.stopImmediatePropagation();
@@ -667,7 +759,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
     getAllAdminBtn.addEventListener("click", () => {
         const jwtToken = localStorage.getItem("adminJwtToken");
 
-        axios.get("https://unicoinxbackend.onrender.com/api/v1/admin/getAllAdmin",{
+        axios.get(`${baseUrl}/api/v1/admin/getAllAdmin`,{
             headers: {
                 "Content-Type": 'application/json',
                 "Authorization" : `Bearer ${jwtToken}`
@@ -737,7 +829,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
 
             loader.style.display = "inline-block";
 
-            axios.patch("https://unicoinxbackend.onrender.com/api/v1/admin/",{
+            axios.patch(`${baseUrl}/api/v1/admin/`,{
                 name: fullName.value.trim(),
                 email: emailAddress.value.trim(),
                 },{
@@ -810,7 +902,7 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
 
             loader.style.display = "inline-block";
 
-            axios.patch(`https://unicoinxbackend.onrender.com/api/v1/admin/adminUpdatePassword`,{
+            axios.patch(`${baseUrl}/api/v1/admin/adminUpdatePassword`,{
                     currentPassword: currentPassword.value.trim(),
                     password: newPassword.value.trim(),
                     passwordConfirm: confirmPassword.value.trim(),
@@ -914,17 +1006,22 @@ if(window.location.pathname === '/unicoinXchange.org/Admin/html/admin.html'){
     const navigation = document.querySelector(".navigation");
     const hamBurger = document.querySelector(".fa-bars");
     const closeBtn = document.querySelector(".fa-times");
+    const tinySkull = document.getElementById("tiny-skull");
 
     hamBurger.addEventListener("click", () => {
         navigation.classList.toggle("active-nav");
 
         hamBurger.style.display = "none";
         closeBtn.style.display = "block";
+        tinySkull.style.width = "0px";
+        tinySkull.style.transitionDuration = "2s"
     })
 
     closeBtn.addEventListener("click", () => {
         hamBurger.style.display = "block";
         closeBtn.style.display = "none";
+        tinySkull.style.width = "25px";
+        tinySkull.style.transitionDuration = "2s"
 
         navigation.classList.toggle("active-nav");
     })

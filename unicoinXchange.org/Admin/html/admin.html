@@ -17,7 +17,7 @@
         <div class="dashboard-wrap">
             <!-- MOBILE HEADER -->
             <div class="mobile-header">
-                <img src="../img/skull.png" alt="skull"/>
+                <img src="../img/skull.png" alt="skull" id="tiny-skull"/>
 
                 <div class="bars">
                     <i class="fa fa-bars"></i>
@@ -124,6 +124,34 @@
                     <button class="btn" type="submit">
                         <div class="dot-windmill loader3"></div>
                         Update Amount
+                    </button>
+                </form>
+
+                   <!-- Edit Client Investment details Form  -->
+    
+                   <form class="forms edit-cli-inv-details">
+                    <div class="form-title">
+                        <h3>Edit Client Investment Details Form</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bonus">Bonus</label>
+                        <input type="number" id="bonus" name="bonus-Amount" value="" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="total-deposit">Total Deposit</label>
+                        <input type="text" id="deposit" name="total-deposit" value="" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="available-profit">Available Profit</label>
+                        <input type="text" id="profit" name="available-profit" value="" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="total-withdraw">Total Withdraw</label>
+                        <input type="text" id="withdraw" name="total-withdraw" value="" required/>
+                    </div>
+                    <button class="btn" type="submit">
+                        <div class="dot-windmill loader4"></div>
+                        Update investment
                     </button>
                 </form>
             </div>

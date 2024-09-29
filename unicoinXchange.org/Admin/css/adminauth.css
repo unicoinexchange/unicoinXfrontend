@@ -7,7 +7,8 @@
 .registration-wrap{
     background-size: cover;
     background-repeat: no-repeat;
-    background-color:#EE5B07;
+    /* background-color:#EE5B07; */
+    background-color: #000dff;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -113,6 +114,7 @@
     transform: translate(-50%, -50%) scale(1);
 }
 .pop img{
+    background-color: white;
     width:100px;
     margin-top: -50px;
     border-radius: 50%;

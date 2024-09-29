@@ -24,7 +24,8 @@
     border-radius: 5px;
 }
 .navigation{
-    background-color: #EE5B07;
+    /* background-color: #EE5B07; */
+    background-color: rgb(0, 115, 255);
     padding: 0.8%;
     width: 25%;
     border-radius: 5px;
@@ -72,7 +73,8 @@
     filter: drop-shadow(0px 8px 5px rgb(0, 0, 0));
 }
 .dashboard-page{
-    background-color: #EE5B07;
+    /* background-color: #EE5B07; */
+    background-color: rgb(0, 115, 255);
     width: 74%;
     border-radius: 5px;
     padding: 1%;
@@ -120,11 +122,13 @@
     flex-direction: column;
     align-items: center;
     overflow-y: hidden;
+    box-sizing: border-box;
 }
 .user-card i{
     color: rgb(0, 115, 255);
     font-size:20px;
     margin: 2% 0% 2% 0%;
+    transition-duration: 0.5s;
 }
 .fa-trash{
     color: rgb(114, 114, 114) !important;
@@ -147,13 +151,11 @@
     font-size: 6px !important;
 }
 .card-btn{
-    background-color: rgb(0, 115, 255);;
+    background-color: rgb(0, 115, 255);
     border: none;
     width: 60%;
-    height: 70px;
-    position:relative;
+    height: 0px;
     font-size: 9px;
-    bottom: -125px;
     margin-top: 5px;
     padding:0px 10px;
     white-space: nowrap;
@@ -162,15 +164,29 @@
     display: block;
     color: white;
     border-radius: 5px;
-    transition-duration: 2s;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+.fa-pen{
+    position: relative;
+    top:7px;
+    font-size: 0px !important;
+    cursor: pointer;
+    z-index: 1;
+    transition-duration: 0.5s;
 }
 .active-card-btn{
     display: none !important;
 }
 .user-card:hover .card-btn{
-    bottom: 1px;
+    height: 70px;
     transition-duration: 1s;
-    cursor: pointer;
+}
+.user-card:hover .fa-user{
+    font-size: 0px;
+}
+.user-card:hover .fa-pen{
+    font-size: 17px !important;
 }
 .admins-card{
     display: flex;
@@ -256,6 +272,9 @@
 .update-cli-inv-form{
     display:none;
 }
+.edit-cli-inv-details{
+    display: none;
+}
 .mobile-header{
     background-color: #000dff;
     display: none;
@@ -295,6 +314,7 @@
     transform: translate(-50%, -50%) scale(1);
 }
 .pop img{
+    background-color: white;
     width:100px;
     margin-top: -50px;
     border-radius: 50%;
