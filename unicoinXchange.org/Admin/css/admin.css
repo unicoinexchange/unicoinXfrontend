@@ -24,7 +24,6 @@
     border-radius: 5px;
 }
 .navigation{
-    /* background-color: #EE5B07; */
     background-color: rgb(0, 115, 255);
     padding: 0.8%;
     width: 25%;
@@ -73,7 +72,6 @@
     filter: drop-shadow(0px 8px 5px rgb(0, 0, 0));
 }
 .dashboard-page{
-    /* background-color: #EE5B07; */
     background-color: rgb(0, 115, 255);
     width: 74%;
     border-radius: 5px;
@@ -172,7 +170,6 @@
     top:7px;
     font-size: 0px !important;
     cursor: pointer;
-    z-index: 1;
     transition-duration: 0.5s;
 }
 .active-card-btn{
@@ -187,6 +184,31 @@
 }
 .user-card:hover .fa-pen{
     font-size: 17px !important;
+}
+.info-dropdown{
+    background-color: #fff;
+    width:13%;
+    border-radius: 3px;
+    position: absolute;
+    top:65px;
+    opacity: 0;
+    transition-duration: 0.5s;
+    box-shadow: 0px 2px 10px rgb(0, 0, 0);
+}
+.user-card:hover .info-dropdown{
+    top:187px;
+    opacity: 1;
+}
+.info-dropdown li{
+    list-style: none;
+    font-size: 9px;
+    color: rgb(80, 80, 80);
+    padding: 2px;
+    margin-top: 2px;
+    font-weight: bold;
+}
+.info-dropdown li:nth-child(odd){
+    background-color: rgb(212, 231, 255);
 }
 .admins-card{
     display: flex;
@@ -370,7 +392,7 @@
 @media only screen and (max-width:600px){
     .admin-dashboard{
         align-items: baseline;
-        height:110vh;
+        /* height:100%; */
     }
     .dashboard-wrap{
         width:100%;
@@ -404,6 +426,17 @@
         width:90%;
         height:30vh;
         margin: 1% auto;
+    }
+    .info-dropdown{
+        top: -600px;
+        width:85%;
+    }
+    .info-dropdown li{
+        padding: 5px;
+        margin-top: 2px;
+    }
+    .user-card:hover .info-dropdown{
+        /* top:500px; */
     }
     .logout-btn i{
         font-size: 25px;

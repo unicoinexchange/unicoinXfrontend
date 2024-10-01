@@ -405,6 +405,16 @@ if(window.location.pathname.endsWith("/admin.html")){
             const deleteIcon = document.createElement("i");
             const editIcon = document.createElement("i");
 
+            // CARD DROP DOWN
+            const infoDropDown = document.createElement("div");
+            const planName = document.createElement("li");
+            const acctBlc = document.createElement("li");
+            const referralBonus = document.createElement("li");
+            const bonus = document.createElement("li");
+            const totalDeposit = document.createElement("li");
+            const availableProfit = document.createElement("li");
+            const totalWithdraw = document.createElement("li");
+
             card.classList.add("user-card");
             userId.classList.add("userId");
             btn1.classList.add("card-btn");
@@ -412,26 +422,46 @@ if(window.location.pathname.endsWith("/admin.html")){
             btn3.classList.add("card-btn");
             userIcon.classList.add("fa");
             userIcon.classList.add("fa-user");
+
             name.innerText = user.name;
             userId.innerText = user._id;
             role.innerText = user.role;
             btn1.innerText = "Update Client Investment Amount";
             btn2.innerText = "Activate Client Investment";
             btn3.innerText = "De-activate Client Investment";
+
             deleteIcon.classList.add("fa");
             deleteIcon.classList.add("fa-trash");
             editIcon.classList.add("fa");
             editIcon.classList.add("fa-pen");
+            
+            infoDropDown.classList.add("info-dropdown");
+            planName.innerText = "Investment-Plan" + " : " + user.investmentPlan?.name;
+            acctBlc.innerText = "Account-Balance" + " : " + user.investmentPlan?.amount;
+            referralBonus.innerText = "Reff-Bonus" + " : " + user.investmentPlan?.referralBonus;
+            bonus.innerText = "Bonus" + " : " + user.investmentPlan?.bonus;
+            totalDeposit.innerText = "Total-Depsit" + " : " + user.investmentPlan?.totalDeposit;
+            availableProfit.innerText = "Available-Profit" + " : " + user.investmentPlan?.availableProfit;
+            totalWithdraw.innerText = "Total-Withdraw" + " : " + user.investmentPlan?.totalWithdraw;
 
-            card.appendChild(editIcon)
-            card.appendChild(userIcon)
-            card.appendChild(name)
-            card.appendChild(userId)
-            card.appendChild(role)
-            card.appendChild(btn1)
-            card.appendChild(btn2)
-            card.appendChild(btn3)
-            card.appendChild(deleteIcon)
+            infoDropDown.appendChild(planName);
+            infoDropDown.appendChild(acctBlc);
+            infoDropDown.appendChild(referralBonus);
+            infoDropDown.appendChild(bonus);
+            infoDropDown.appendChild(totalDeposit);
+            infoDropDown.appendChild(availableProfit);
+            infoDropDown.appendChild(totalWithdraw)
+
+            card.appendChild(infoDropDown);
+            card.appendChild(editIcon);
+            card.appendChild(userIcon);
+            card.appendChild(name);
+            card.appendChild(userId);
+            card.appendChild(role);
+            card.appendChild(btn1);
+            card.appendChild(btn2);
+            card.appendChild(btn3);
+            card.appendChild(deleteIcon);
             userCardsWrap.appendChild(card);
         })
 
@@ -491,7 +521,7 @@ if(window.location.pathname.endsWith("/admin.html")){
             })
         })
 
-        retriveCards(users)
+        retriveCards(users);
     };
 
     // GET ALL USER
@@ -675,7 +705,7 @@ if(window.location.pathname.endsWith("/admin.html")){
         })
     }
 
-    const retriveCards = () => {
+    const retriveCards = (users) => {
         const userCardsWrap = document.querySelector(".user-cards-wrap");
         if(userCardsWrap.children !== null){
             const userCards = userCardsWrap.getElementsByClassName("user-card");
